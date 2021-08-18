@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="80" author="max.freedman.main@gmail.com">
+        <tagDatabase tag="alter-table-localizations"/>
+    </changeSet>
+
+    <changeSet id="90" author="max.freedman.main@gmail.com">
+        <sqlFile path="db.changelog/db.changelog-v-1.0/scripts/alter/alter-table-countries.sql"/>
+    </changeSet>
+</databaseChangeLog>
