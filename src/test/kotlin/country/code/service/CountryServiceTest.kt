@@ -21,11 +21,9 @@ import org.junit.jupiter.api.assertThrows
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class CountryServiceTest {
-
     private var countryRepositoryMock: CountryRepository = mock()
     private var isoCodeRepositoryMockk: IsoCodeRepository = mock()
     private var languageRepositoryMockk: LanguageRepository = mock()
-
     private val localizationService: CountryService =
         CountryServiceImpl(isoCodeRepositoryMockk, languageRepositoryMockk, countryRepositoryMock)
 
@@ -57,7 +55,7 @@ internal class CountryServiceTest {
     @Test
     fun `given unknown iso code it should provide exception`() {
         whenever(isoCodeRepositoryMockk.existsByCode("UK"))
-            .thenThrow(UnknownIsoCodeApplicationException("Invalid iso code format! ISO=DEU"))
+            .thenThrow(UnknownIsoCodeApplicationException::class.java)
 
         assertThrows<UnknownIsoCodeApplicationException> {
             localizationService.getCountryByIsoCodeAndLanguage(
@@ -72,7 +70,7 @@ internal class CountryServiceTest {
         whenever(isoCodeRepositoryMockk.existsByCode("UK"))
             .thenReturn(true)
         whenever(languageRepositoryMockk.existsByLanguage("JA"))
-            .thenThrow(UnknownLanguageApplicationException("Invalid language format! Language=JA"))
+            .thenThrow(UnknownLanguageApplicationException::class.java)
         assertThrows<UnknownLanguageApplicationException> {
             localizationService.getCountryByIsoCodeAndLanguage(
                 "UK",

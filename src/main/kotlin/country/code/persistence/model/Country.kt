@@ -12,7 +12,7 @@ import javax.persistence.Table
 @Entity
 @Table(name = "countries")
 class Country(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = 0,
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "country_localization_id") val countryLocalization: Localization,
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "iso_code_id") val isoCode: IsoCode,
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "language_id") val language: Language
