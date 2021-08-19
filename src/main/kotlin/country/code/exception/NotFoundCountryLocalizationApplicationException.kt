@@ -1,6 +1,6 @@
 package country.code.exception
 
-class CountryLocalizationNotFoundApplicationException(
+class NotFoundCountryLocalizationApplicationException(
     message: String
 ) : AbstractRestApplicationException(ERROR_CODE, message) {
     private companion object {

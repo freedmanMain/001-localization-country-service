@@ -1,6 +1,6 @@
 package country.code.service
 
-import country.code.exception.CountryLocalizationNotFoundApplicationException
+import country.code.exception.NotFoundCountryLocalizationApplicationException
 import country.code.exception.UnknownIsoCodeApplicationException
 import country.code.exception.UnknownLanguageApplicationException
 import country.code.persistence.model.Country
@@ -32,6 +32,6 @@ class CountryServiceImpl(
             )
         }
         return countryRepository.findCountryByIsoCodeAndLanguage(isoCodeInUpperCase, languageInUpperCase)
-            ?: throw CountryLocalizationNotFoundApplicationException("Couldn't find country by these $isoCode and $language")
+            ?: throw NotFoundCountryLocalizationApplicationException("Couldn't find country by these $isoCode and $language")
     }
 }
