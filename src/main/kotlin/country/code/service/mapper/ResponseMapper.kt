@@ -10,6 +10,5 @@ interface ResponseMapper<M, D> {
 
 @Component
 class CountryResponseMapper : ResponseMapper<Country, CountryResponseDto> {
-    override fun toDto(model: Country): CountryResponseDto =
-        CountryResponseDto(model.isoCode.code, model.countryLocalization.localization)
+    override fun toDto(model: Country): CountryResponseDto = TODO()
 }

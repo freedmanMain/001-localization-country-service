@@ -33,42 +33,42 @@ class MockCountryDataSource (
 
         languageRepository.saveAll(listOf(en, ru, ua))
 
-        val ukraineEn = Localization(localization = "Ukraine")
-        val ukraineRu = Localization(localization = "Украина")
-        val ukraineUa = Localization(localization = "Україна")
-
-        val russiaEn = Localization(localization = "Russia")
-        val russiaRu = Localization(localization = "Росия")
-        val russiaUa = Localization(localization = "Росія")
-
-        localizationRepository.saveAll(
-            listOf(
-                ukraineEn, ukraineRu, ukraineUa,
-                russiaEn, russiaRu, russiaUa
-            )
-        )
-
-        val ukCode = IsoCode(code = "UK")
-        val ukrCode = IsoCode(code = "UKR")
-        val ruCode = IsoCode(code = "RU")
-        val rusCode = IsoCode(code = "RUS")
-
-        isoCodeRepository.saveAll(listOf(ukCode, ukrCode, ruCode, rusCode))
-
-        val ukraineEnUk = Country(countryLocalization = ukraineEn, isoCode = ukCode, language = en)
-        val ukraineRuUk = Country(countryLocalization = ukraineRu, isoCode = ukCode, language = ru)
-        val ukraineUaUkr = Country(countryLocalization = ukraineUa, isoCode = ukrCode, language = ua)
-
-        val russiaEnRu = Country(countryLocalization = russiaEn, isoCode = ruCode, language = en)
-        val russiaRuRu = Country(countryLocalization = russiaRu, isoCode = ruCode, language = ru)
-        val russiaUkRus = Country(countryLocalization = russiaUa, isoCode = rusCode, language = ua)
-
-        countryRepository.saveAll(
-            listOf(
-                ukraineEnUk, ukraineRuUk, ukraineUaUkr,
-                russiaEnRu, russiaRuRu, russiaUkRus
-            )
-        )
+//        val ukraineEn = Localization(localization = "Ukraine")
+//        val ukraineRu = Localization(localization = "Украина")
+//        val ukraineUa = Localization(localization = "Україна")
+//
+//        val russiaEn = Localization(localization = "Russia")
+//        val russiaRu = Localization(localization = "Росия")
+//        val russiaUa = Localization(localization = "Росія")
+//
+//        localizationRepository.saveAll(
+//            listOf(
+//                ukraineEn, ukraineRu, ukraineUa,
+//                russiaEn, russiaRu, russiaUa
+//            )
+//        )
+//
+//        val ukCode = IsoCode(code = "UK")
+//        val ukrCode = IsoCode(code = "UKR")
+//        val ruCode = IsoCode(code = "RU")
+//        val rusCode = IsoCode(code = "RUS")
+//
+//        isoCodeRepository.saveAll(listOf(ukCode, ukrCode, ruCode, rusCode))
+//
+//        val ukraineEnUk = Country(countryLocalization = ukraineEn, isoCode = ukCode, language = en)
+//        val ukraineRuUk = Country(countryLocalization = ukraineRu, isoCode = ukCode, language = ru)
+//        val ukraineUaUkr = Country(countryLocalization = ukraineUa, isoCode = ukrCode, language = ua)
+//
+//        val russiaEnRu = Country(countryLocalization = russiaEn, isoCode = ruCode, language = en)
+//        val russiaRuRu = Country(countryLocalization = russiaRu, isoCode = ruCode, language = ru)
+//        val russiaUkRus = Country(countryLocalization = russiaUa, isoCode = rusCode, language = ua)
+//
+//        countryRepository.saveAll(
+//            listOf(
+//                ukraineEnUk, ukraineRuUk, ukraineUaUkr,
+//                russiaEnRu, russiaRuRu, russiaUkRus
+//            )
+//        )
     }
 
     fun deleteMockDataSource() {

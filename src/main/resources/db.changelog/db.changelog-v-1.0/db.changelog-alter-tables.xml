@@ -5,10 +5,19 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet id="80" author="max.freedman.main@gmail.com">
-        <tagDatabase tag="alter-table-localizations"/>
+        <tagDatabase tag="alter-table-iso_codes"/>
     </changeSet>
 
     <changeSet id="90" author="max.freedman.main@gmail.com">
-        <sqlFile path="db.changelog/db.changelog-v-1.0/scripts/alter/alter-table-countries.sql"/>
+        <sqlFile path="db.changelog/db.changelog-v-1.0/scripts/alter/alter-table-iso_codes.sql"/>
     </changeSet>
+
+    <changeSet id="100" author="max.freedman.main@gmail.com">
+        <tagDatabase tag="alter-table-localizations"/>
+    </changeSet>
+
+    <changeSet id="110" author="max.freedman.main@gmail.com">
+        <sqlFile path="db.changelog/db.changelog-v-1.0/scripts/alter/alter-table-localizations.sql"/>
+    </changeSet>
+
 </databaseChangeLog>
