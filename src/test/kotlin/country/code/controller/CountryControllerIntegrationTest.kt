@@ -2,8 +2,8 @@ package country.code.controller
 
 import country.code.test.datasource.MockCountryDataSource
 import country.code.testcontainer.postgreSQLContainer
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -23,11 +23,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @AutoConfigureMockMvc
 internal class CountryControllerIntegrationTest(
     @Autowired private val mockMvc: MockMvc,
-    @Autowired private val datasource: MockCountryDataSource
 ) {
-    private val apiUrl = "/countries/"
+    val apiUrl = "/countries/"
+    val exceptedCountryCode = "UK"
+    val exceptedCountryLocalization = "Ukraine"
 
-    companion object {
+    private companion object {
+        @Autowired
+        private lateinit var dataSource: MockCountryDataSource
+
         @JvmStatic
         @DynamicPropertySource
         fun setUpDynamicProperties(registry: DynamicPropertyRegistry) {
@@ -36,16 +40,14 @@ internal class CountryControllerIntegrationTest(
             registry.add("spring.datasource.password", postgreSQLContainer::getPassword)
             registry.add("spring.datasource.username", postgreSQLContainer::getUsername)
         }
-    }
-
-    @BeforeEach
-    fun init() {
-        datasource.addMockDataSource()
-    }
-
-    @AfterEach
-    fun close() {
-        datasource.deleteMockDataSource()
+        @BeforeAll
+        fun init() {
+            dataSource.addMockDataSource()
+        }
+        @AfterAll
+        fun close() {
+            dataSource.deleteMockDataSource()
+        }
     }
 
     @Test
@@ -54,8 +56,8 @@ internal class CountryControllerIntegrationTest(
             .andExpect {
                 status().isOk
                 content().contentType(MediaType.APPLICATION_JSON)
-                jsonPath("$.countryCode").value("UK")
-                jsonPath("$.countyLocalization").value("Ukraine")
+                jsonPath("$.countryCode").value(exceptedCountryCode)
+                jsonPath("$.countyLocalization").value(exceptedCountryLocalization)
             }
     }
 

@@ -1,5 +1,8 @@
 package country.code.persistence.repository
 
+import country.code.persistence.model.IsoCode
+import country.code.persistence.model.Language
+import country.code.persistence.model.Localization
 import country.code.test.datasource.MockCountryDataSource
 import country.code.testcontainer.postgreSQLContainer
 import org.assertj.core.api.Assertions.assertThat
@@ -24,7 +27,20 @@ internal class CountryRepositoryTest @Autowired constructor(
     private val repository: CountryRepository,
     private val datasource: MockCountryDataSource
 ) {
-    companion object {
+    private companion object {
+        const val exceptedCountryId: Long = 1
+
+        val exceptedIsoCodes = setOf(
+            IsoCode(1, "UK"),
+            IsoCode(2, "UKR")
+        )
+
+        val exceptedLocalizations = setOf(
+            Localization(1, "Ukraine", Language(1, "EN")),
+            Localization(2, "Украина", Language(2, "RU")),
+            Localization(3, "Україна", Language(3, "UA")),
+        )
+
         @JvmStatic
         @DynamicPropertySource
         fun setUpDynamicProperties(registry: DynamicPropertyRegistry) {
@@ -49,9 +65,8 @@ internal class CountryRepositoryTest @Autowired constructor(
     internal fun `should get country by iso code and language`() {
         val actual = repository.findCountryByIsoCodeAndLanguage("UK", "EN")
         assertThat(actual).isNotNull
-        assertThat(actual).matches { it?.id == 1L }
-        assertThat(actual).matches { it?.isoCode?.code == "UK" }
-        assertThat(actual).matches { it?.language?.language == "EN" }
-        assertThat(actual).matches { it?.countryLocalization?.localization == "Ukraine" }
+        assertThat(actual).matches { it?.id == exceptedCountryId }
+        assertThat(actual).matches { it?.isoCodes?.containsAll(exceptedIsoCodes)!! }
+        assertThat(actual).matches { it?.localizations?.containsAll(exceptedLocalizations)!! }
     }
 }

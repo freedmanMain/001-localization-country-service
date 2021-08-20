@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface IsoCodeRepository : JpaRepository<IsoCode, Long> {
-    fun existsByCode(countryIsoCode: String): Boolean
+    fun existsByIsoCode(countryIsoCode: String): Boolean
 }

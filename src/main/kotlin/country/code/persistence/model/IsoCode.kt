@@ -9,7 +9,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "iso_codes")
-class IsoCode(
+data class IsoCode(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = 0,
-    @Column(name = "code") val code: String
+    @Column(name = "iso_code") val isoCode: String
 )
