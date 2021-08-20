@@ -6,10 +6,10 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import country.code.exception.UnknownIsoCodeApplicationException
 import country.code.exception.UnknownLanguageApplicationException
-import country.code.persistence.model.Localization
+import country.code.persistence.model.Country
 import country.code.persistence.model.IsoCode
 import country.code.persistence.model.Language
-import country.code.persistence.model.Country
+import country.code.persistence.model.Localization
 import country.code.persistence.repository.IsoCodeRepository
 import country.code.persistence.repository.LanguageRepository
 import country.code.persistence.repository.CountryRepository
@@ -27,6 +27,17 @@ internal class CountryServiceTest {
     private val localizationService: CountryService =
         CountryServiceImpl(isoCodeRepositoryMockk, languageRepositoryMockk, countryRepositoryMock)
 
+    private companion object {
+        const val exceptedCountryId: Long = 1
+
+        val exceptedIsoCodes = setOf(
+            IsoCode(1, "UK"),
+        )
+
+        val exceptedLocalizations = setOf(
+            Localization(1, "Ukraine", Language(1, "EN")),
+        )
+    }
 
     @BeforeEach
     fun setUp() {
@@ -35,26 +46,32 @@ internal class CountryServiceTest {
 
     @Test
     fun `given existent data it should provide localization`() {
-        whenever(isoCodeRepositoryMockk.existsByCode("UK")).thenReturn(true)
+        whenever(isoCodeRepositoryMockk.existsByIsoCode("UK")).thenReturn(true)
         whenever(languageRepositoryMockk.existsByLanguage("EN")).thenReturn(true)
 
-//        whenever(countryRepositoryMock.findCountryByIsoCodeAndLanguage("UK", "EN"))
-//            .thenReturn(Country(2L, Localization(1L, "Ukraine"), IsoCode(1L, "UK"), Language(1L, "EN")))
+        whenever(countryRepositoryMock.findCountryByIsoCodeAndLanguage("UK", "EN"))
+            .thenReturn(
+                Country(
+                    exceptedCountryId,
+                    exceptedIsoCodes,
+                    exceptedLocalizations
+                )
+            )
 
         val actual = localizationService.getCountryByIsoCodeAndLanguage("UK", "EN")
 
-//        verify(countryRepositoryMock).findCountryByIsoCodeAndLanguage("UK", "EN")
+        verify(countryRepositoryMock).findCountryByIsoCodeAndLanguage("UK", "EN")
 
         assertThat(actual).isNotNull
-        assertThat(actual).matches { it?.id == 2L }
-//        assertThat(actual).matches { it?.countryLocalization?.localization == "Ukraine" }
-//        assertThat(actual).matches { it?.isoCode?.code == "UK" }
-//        assertThat(actual).matches { it?.language?.language == "EN" }
+        assertThat(actual).isNotNull
+        assertThat(actual).matches { it.id == exceptedCountryId }
+        assertThat(actual).matches { it.isoCodes.containsAll(exceptedIsoCodes) }
+        assertThat(actual).matches { it.localizations.containsAll(exceptedLocalizations) }
     }
 
     @Test
     fun `given unknown iso code it should provide exception`() {
-        whenever(isoCodeRepositoryMockk.existsByCode("UK"))
+        whenever(isoCodeRepositoryMockk.existsByIsoCode("UK"))
             .thenThrow(UnknownIsoCodeApplicationException::class.java)
 
         assertThrows<UnknownIsoCodeApplicationException> {
@@ -67,7 +84,7 @@ internal class CountryServiceTest {
 
     @Test
     fun `given unknown language it should provide exception`() {
-        whenever(isoCodeRepositoryMockk.existsByCode("UK"))
+        whenever(isoCodeRepositoryMockk.existsByIsoCode("UK"))
             .thenReturn(true)
         whenever(languageRepositoryMockk.existsByLanguage("JA"))
             .thenThrow(UnknownLanguageApplicationException::class.java)

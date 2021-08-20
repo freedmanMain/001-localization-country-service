@@ -19,10 +19,10 @@ class CountryServiceImpl(
         val isoCodeInUpperCase = isoCode.uppercase()
         val languageInUpperCase = language.uppercase()
 
-        if (!isoCodeRepository.existsByCode(isoCodeInUpperCase)) {
+        if (!isoCodeRepository.existsByIsoCode(isoCodeInUpperCase)) {
             throw UnknownIsoCodeApplicationException(
                 "Unknown iso code format $isoCode. "
-                        + "The code must be in the following formats Alpha-2, Alpha-3, and Numeric Country Codes"
+                        + "The code must be in the following formats Alpha-2, Alpha-3 or Numeric"
             )
         }
         if (!languageRepository.existsByLanguage(languageInUpperCase)) {
@@ -31,8 +31,7 @@ class CountryServiceImpl(
                         + "The format must be in the following format ISO 639"
             )
         }
-//        return countryRepository.findCountryByIsoCodeAndLanguage(isoCodeInUpperCase, languageInUpperCase)
-//            ?: throw NotFoundCountryLocalizationApplicationException("Couldn't find country by these $isoCode and $language")
-        TODO()
+        return countryRepository.findCountryByIsoCodeAndLanguage(isoCodeInUpperCase, languageInUpperCase)
+            ?: throw NotFoundCountryLocalizationApplicationException("Couldn't find country by this $isoCode and $language")
     }
 }

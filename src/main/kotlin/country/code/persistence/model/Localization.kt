@@ -11,7 +11,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "localizations")
-class Localization(
+data class Localization(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = 0,
     @Column(name = "localization") val localization: String,
     @ManyToOne @JoinColumn(name = "language_id") val language: Language

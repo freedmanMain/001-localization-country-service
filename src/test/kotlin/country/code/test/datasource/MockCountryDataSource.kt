@@ -8,7 +8,6 @@ import country.code.persistence.repository.CountryRepository
 import country.code.persistence.repository.IsoCodeRepository
 import country.code.persistence.repository.LanguageRepository
 import country.code.persistence.repository.LocalizationRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.test.context.ContextConfiguration
 
@@ -20,7 +19,7 @@ import org.springframework.test.context.ContextConfiguration
         IsoCodeRepository::class,
         CountryRepository::class]
 )
-class MockCountryDataSource (
+class MockCountryDataSource(
     val languageRepository: LanguageRepository,
     val localizationRepository: LocalizationRepository,
     val isoCodeRepository: IsoCodeRepository,
@@ -33,42 +32,32 @@ class MockCountryDataSource (
 
         languageRepository.saveAll(listOf(en, ru, ua))
 
-//        val ukraineEn = Localization(localization = "Ukraine")
-//        val ukraineRu = Localization(localization = "Украина")
-//        val ukraineUa = Localization(localization = "Україна")
-//
-//        val russiaEn = Localization(localization = "Russia")
-//        val russiaRu = Localization(localization = "Росия")
-//        val russiaUa = Localization(localization = "Росія")
-//
-//        localizationRepository.saveAll(
-//            listOf(
-//                ukraineEn, ukraineRu, ukraineUa,
-//                russiaEn, russiaRu, russiaUa
-//            )
-//        )
-//
-//        val ukCode = IsoCode(code = "UK")
-//        val ukrCode = IsoCode(code = "UKR")
-//        val ruCode = IsoCode(code = "RU")
-//        val rusCode = IsoCode(code = "RUS")
-//
-//        isoCodeRepository.saveAll(listOf(ukCode, ukrCode, ruCode, rusCode))
-//
-//        val ukraineEnUk = Country(countryLocalization = ukraineEn, isoCode = ukCode, language = en)
-//        val ukraineRuUk = Country(countryLocalization = ukraineRu, isoCode = ukCode, language = ru)
-//        val ukraineUaUkr = Country(countryLocalization = ukraineUa, isoCode = ukrCode, language = ua)
-//
-//        val russiaEnRu = Country(countryLocalization = russiaEn, isoCode = ruCode, language = en)
-//        val russiaRuRu = Country(countryLocalization = russiaRu, isoCode = ruCode, language = ru)
-//        val russiaUkRus = Country(countryLocalization = russiaUa, isoCode = rusCode, language = ua)
-//
-//        countryRepository.saveAll(
-//            listOf(
-//                ukraineEnUk, ukraineRuUk, ukraineUaUkr,
-//                russiaEnRu, russiaRuRu, russiaUkRus
-//            )
-//        )
+        val ukraineEn = Localization(localization = "Ukraine", language = en)
+        val ukraineRu = Localization(localization = "Украина", language = ru)
+        val ukraineUa = Localization(localization = "Україна", language = ua)
+
+        val russiaEn = Localization(localization = "Russia", language = en)
+        val russiaRu = Localization(localization = "Росия", language = ru)
+        val russiaUa = Localization(localization = "Росія", language = ua)
+
+        localizationRepository.saveAll(
+            listOf(
+                ukraineEn, ukraineRu, ukraineUa,
+                russiaEn, russiaRu, russiaUa
+            )
+        )
+
+        val ukCode = IsoCode(isoCode = "UK")
+        val ukrCode = IsoCode(isoCode = "UKR")
+        val ruCode = IsoCode(isoCode = "RU")
+        val rusCode = IsoCode(isoCode = "RUS")
+
+        isoCodeRepository.saveAll(listOf(ukCode, ukrCode, ruCode, rusCode))
+
+        val ukraine = Country(isoCodes = setOf(ukCode, ukrCode), localizations = setOf(ukraineEn, ukraineRu, ukraineUa))
+        val russia = Country(isoCodes = setOf(ruCode, rusCode), localizations = setOf(russiaEn, russiaRu, russiaUa))
+
+        countryRepository.saveAll(listOf(ukraine, russia))
     }
 
     fun deleteMockDataSource() {
