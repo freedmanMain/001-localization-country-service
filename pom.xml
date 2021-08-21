@@ -29,6 +29,7 @@
         <db.driver>org.postgresql.Driver</db.driver>
         <db.username>postgres</db.username>
         <db.password>postgres</db.password>
+        <liquibase.contexts>dev</liquibase.contexts>
     </properties>
     <profiles>
         <profile>
@@ -55,6 +56,7 @@
                             <driver>${db.driver}</driver>
                             <username>${db.username}</username>
                             <password>${db.password}</password>
+                            <contexts>${liquibase.contexts}</contexts>
                         </configuration>
                     </plugin>
                 </plugins>

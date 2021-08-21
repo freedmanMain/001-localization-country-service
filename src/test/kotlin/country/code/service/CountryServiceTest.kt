@@ -26,18 +26,10 @@ internal class CountryServiceTest {
     private var languageRepositoryMockk: LanguageRepository = mock()
     private val localizationService: CountryService =
         CountryServiceImpl(isoCodeRepositoryMockk, languageRepositoryMockk, countryRepositoryMock)
-
-    private companion object {
-        const val exceptedCountryId: Long = 1
-
-        val exceptedIsoCodes = setOf(
-            IsoCode(1, "UK"),
-        )
-
-        val exceptedLocalizations = setOf(
-            Localization(1, "Ukraine", Language(1, "EN")),
-        )
-    }
+    private val exceptedCountryId = 1L
+    private val exceptedLanguage = Language(1, "EN")
+    private val exceptedIsoCodes = setOf(IsoCode(1, "UK"),)
+    private val exceptedLocalizations = setOf(Localization(1, "Ukraine", exceptedLanguage))
 
     @BeforeEach
     fun setUp() {

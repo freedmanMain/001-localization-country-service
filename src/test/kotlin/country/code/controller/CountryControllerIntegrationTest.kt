@@ -1,9 +1,6 @@
 package country.code.controller
 
-import country.code.test.datasource.MockCountryDataSource
 import country.code.testcontainer.postgreSQLContainer
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -24,14 +21,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 internal class CountryControllerIntegrationTest(
     @Autowired private val mockMvc: MockMvc,
 ) {
-    val apiUrl = "/countries/"
-    val exceptedCountryCode = "UK"
-    val exceptedCountryLocalization = "Ukraine"
+    private val apiUrl = "/countries/"
+    private val exceptedCountryCode = "UK"
+    private val exceptedCountryLocalization = "Ukraine"
 
     private companion object {
-        @Autowired
-        private lateinit var dataSource: MockCountryDataSource
-
         @JvmStatic
         @DynamicPropertySource
         fun setUpDynamicProperties(registry: DynamicPropertyRegistry) {
@@ -39,14 +33,6 @@ internal class CountryControllerIntegrationTest(
             registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl)
             registry.add("spring.datasource.password", postgreSQLContainer::getPassword)
             registry.add("spring.datasource.username", postgreSQLContainer::getUsername)
-        }
-        @BeforeAll
-        fun init() {
-            dataSource.addMockDataSource()
-        }
-        @AfterAll
-        fun close() {
-            dataSource.deleteMockDataSource()
         }
     }
 

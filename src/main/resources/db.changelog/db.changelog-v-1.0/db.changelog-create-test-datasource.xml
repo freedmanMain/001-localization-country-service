@@ -4,7 +4,11 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-    <include file="db.changelog/db.changelog-v-1.0/db.changelog-create-tables.xml" context="dev, test"/>
-    <include file="db.changelog/db.changelog-v-1.0/db.changelog-alter-tables.xml" context="dev, test"/>
-    <include file="db.changelog/db.changelog-v-1.0/db.changelog-create-test-datasource.xml" context="test"/>
+    <changeSet id="120" author="max.freedman.main@gmail.com">
+        <tagDatabase tag="create-test-datasource"/>
+    </changeSet>
+
+    <changeSet id="130" author="max.freedman.main@gmail.com">
+        <sqlFile path="db.changelog/db.changelog-v-1.0/scripts/test.datasource/insert-test-data.sql"/>
+    </changeSet>
 </databaseChangeLog>
