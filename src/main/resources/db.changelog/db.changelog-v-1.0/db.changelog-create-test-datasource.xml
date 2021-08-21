@@ -9,7 +9,6 @@
     </changeSet>
 
     <changeSet id="130" author="max.freedman.main@gmail.com">
-        <sqlFile path="db.changelog/db.changelog-v-1.0/scripts/insert-test-data.sql"/>
+        <sqlFile path="db.changelog/db.changelog-v-1.0/scripts/test.datasource/insert-test-data.sql"/>
     </changeSet>
-
 </databaseChangeLog>
