@@ -55,7 +55,6 @@ internal class CountryServiceTest {
         verify(countryRepositoryMock).findCountryByIsoCodeAndLanguage("UK", "EN")
 
         assertThat(actual).isNotNull
-        assertThat(actual).isNotNull
         assertThat(actual).matches { it.id == exceptedCountryId }
         assertThat(actual).matches { it.isoCodes.containsAll(exceptedIsoCodes) }
         assertThat(actual).matches { it.localizations.containsAll(exceptedLocalizations) }
