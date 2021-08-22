@@ -18,7 +18,7 @@ class ExceptionHandlerController {
 
     @ExceptionHandler(NotFoundCountryLocalizationApplicationException::class)
     fun handleNotFoundException(e: AbstractRestApplicationException) =
-        ResponseEntity(provideResponseBody(e, HttpStatus.BAD_REQUEST), HttpStatus.NOT_FOUND)
+        ResponseEntity(provideResponseBody(e, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND)
 
     fun provideResponseBody(e: AbstractRestApplicationException, status: HttpStatus) =
         mutableMapOf<String, Any>()
