@@ -13,7 +13,10 @@ import javax.persistence.Table
 @Entity
 @Table(name = "countries")
 data class Country(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = 0,
-    @OneToMany @JoinColumn(name = "country_id") val isoCodes: Set<IsoCode>,
-    @OneToMany @JoinColumn(name = "country_id") val localizations: Set<Localization>
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0,
+    @OneToMany @JoinColumn(name = "country_id")
+    val isoCodes: List<IsoCode>,
+    @OneToMany @JoinColumn(name = "country_id")
+    val localizations: List<Localization>
 )

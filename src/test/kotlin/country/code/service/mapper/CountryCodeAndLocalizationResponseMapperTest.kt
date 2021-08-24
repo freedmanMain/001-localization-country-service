@@ -18,8 +18,8 @@ internal class CountryCodeAndLocalizationResponseMapperTest {
     fun `should provide country code and localization response dto`() {
         val id = 1L
         val language = Language(1, "EN")
-        val isoCodes = setOf(IsoCode(1, "UK"))
-        val localizations = setOf(Localization(1, "Ukraine", language))
+        val isoCodes = listOf(IsoCode(1, "UK"))
+        val localizations = listOf(Localization(1, "Ukraine", language))
         val country = Country(id, isoCodes, localizations)
 
         val dto = countryCodeAndLocalizationResponseMapper.toDto(country, "UK", "EN")
