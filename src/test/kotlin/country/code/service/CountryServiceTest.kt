@@ -28,8 +28,8 @@ internal class CountryServiceTest {
         CountryServiceImpl(isoCodeRepositoryMockk, languageRepositoryMockk, countryRepositoryMock)
     private val exceptedCountryId = 1L
     private val exceptedLanguage = Language(1, "EN")
-    private val exceptedIsoCodes = setOf(IsoCode(1, "UK"),)
-    private val exceptedLocalizations = setOf(Localization(1, "Ukraine", exceptedLanguage))
+    private val exceptedIsoCodes = listOf(IsoCode(1, "UK"),)
+    private val exceptedLocalizations = listOf(Localization(1, "Ukraine", exceptedLanguage))
 
     @BeforeEach
     fun setUp() {
