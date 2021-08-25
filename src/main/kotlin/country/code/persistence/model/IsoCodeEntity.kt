@@ -9,9 +9,9 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "iso_codes")
-data class IsoCode(
+data class IsoCodeEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    val id: Long? = null,
     @Column(name = "iso_code")
     val isoCode: String
 )

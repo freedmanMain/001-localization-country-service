@@ -1,8 +1,9 @@
 package country.code.persistence.repository
 
-import country.code.persistence.model.IsoCode
-import country.code.persistence.model.Language
-import country.code.persistence.model.Localization
+import country.code.persistence.model.IsoCodeEntity
+import country.code.persistence.model.LanguageEntity
+import country.code.persistence.model.LocalizationEntity
+import country.code.persistence.repository.jpa.CountryJpaRepository
 import country.code.testcontainer.postgreSQLContainer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -18,13 +19,13 @@ import org.springframework.test.context.DynamicPropertySource
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class CountryRepositoryTest @Autowired constructor(
-    private val repository: CountryRepository
+internal class CountryJpaRepositoryTest @Autowired constructor(
+    private val repository: CountryJpaRepository
 ) {
     private val exceptedCountryId = 1L
-    private val exceptedLanguage = Language(1, "EN")
-    private val exceptedIsoCodes = listOf(IsoCode(1, "UK"),)
-    private val exceptedLocalizations = listOf(Localization(1, "Ukraine", exceptedLanguage))
+    private val exceptedLanguage = LanguageEntity(1, "EN")
+    private val exceptedIsoCodes = listOf(IsoCodeEntity(1, "UK"),)
+    private val exceptedLocalizations = listOf(LocalizationEntity(1, "Ukraine", exceptedLanguage))
 
     private companion object {
         @JvmStatic

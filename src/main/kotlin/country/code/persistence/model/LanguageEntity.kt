@@ -9,9 +9,9 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "languages")
-data class Language(
+data class LanguageEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    val id: Long? = null,
     @Column(name = "language")
     val language: String
 )
