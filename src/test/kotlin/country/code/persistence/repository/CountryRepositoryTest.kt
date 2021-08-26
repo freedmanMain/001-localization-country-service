@@ -60,6 +60,18 @@ internal class CountryRepositoryTest @Autowired constructor(
     }
 
     @Test
+    internal fun `should not find country when country code not exist`() {
+        whenever(countryCodeRepository.existBy("RU")).thenReturn(true)
+        whenever(countryLanguageRepository.existBy("EN")).thenReturn(true)
+
+        val code = Code("RU", countryCodeRepository)
+        val lang = Language("EN", countryLanguageRepository)
+
+        val actual = countryRepository.findBy(code!!, lang!!)
+        assertNull(actual)
+    }
+
+    @Test
     internal fun `should not find country when localization language not exist`() {
         whenever(countryCodeRepository.existBy("UK")).thenReturn(true)
         whenever(countryLanguageRepository.existBy("UA")).thenReturn(true)
