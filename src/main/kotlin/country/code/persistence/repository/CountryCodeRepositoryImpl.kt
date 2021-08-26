@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository
 class CountryCodeRepositoryImpl(
     val isoCodeJpaRepository: IsoCodeJpaRepository
 ) : CountryCodeRepository {
-    override fun exist(value: String) = isoCodeJpaRepository.existsByIsoCode(value)
+    override fun existBy(value: String) = isoCodeJpaRepository.existsByIsoCode(value)
 }

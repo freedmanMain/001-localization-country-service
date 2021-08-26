@@ -13,7 +13,7 @@ class CountryRepositoryImpl(
     val countryJpaRepository: CountryJpaRepository
 ) : CountryRepository {
     override fun findBy(code: Code, language: Language): Country? =
-        countryJpaRepository.findCountryByIsoCodeAndLanguage(code.value, language.value)
+        countryJpaRepository.findBy(code.value, language.value)
             ?.toCountry()
 
     fun CountryEntity.toCountry() =

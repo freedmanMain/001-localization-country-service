@@ -8,6 +8,6 @@ value class Language private constructor(val value: String) {
         operator fun invoke(value: String, repository: CountryLanguageRepository) = of(value, repository)
 
         private fun of(value: String, repository: CountryLanguageRepository) =
-            if (repository.exist(value)) Language(value) else null
+            if (repository.existBy(value)) Language(value) else null
     }
 }
