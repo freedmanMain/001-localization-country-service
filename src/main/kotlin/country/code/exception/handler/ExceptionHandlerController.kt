@@ -1,9 +1,9 @@
-package country.code.controller.exception.handler
+package country.code.exception.handler
 
 import country.code.exception.AbstractRestApplicationException
+import country.code.exception.NotFoundCountryLocalizationApplicationException
 import country.code.exception.UnknownIsoCodeApplicationException
 import country.code.exception.UnknownLanguageApplicationException
-import country.code.exception.NotFoundCountryLocalizationApplicationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
