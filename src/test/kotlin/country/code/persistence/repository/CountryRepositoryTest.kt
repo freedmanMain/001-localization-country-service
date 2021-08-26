@@ -60,7 +60,7 @@ internal class CountryRepositoryTest @Autowired constructor(
     }
 
     @Test
-    internal fun `should not find country when country code not exist`() {
+    internal fun `should not find country when country code not found`() {
         whenever(countryCodeRepository.existBy("RU")).thenReturn(true)
         whenever(countryLanguageRepository.existBy("EN")).thenReturn(true)
 
@@ -72,7 +72,7 @@ internal class CountryRepositoryTest @Autowired constructor(
     }
 
     @Test
-    internal fun `should not find country when localization language not exist`() {
+    internal fun `should not find country when localization language not found`() {
         whenever(countryCodeRepository.existBy("UK")).thenReturn(true)
         whenever(countryLanguageRepository.existBy("UA")).thenReturn(true)
 
