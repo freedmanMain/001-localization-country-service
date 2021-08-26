@@ -5,7 +5,7 @@ import country.code.persistence.model.LanguageEntity
 import country.code.persistence.model.LocalizationEntity
 import country.code.persistence.repository.jpa.CountryJpaRepository
 import country.code.testcontainer.postgreSQLContainer
-import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,7 +24,7 @@ internal class CountryJpaRepositoryTest @Autowired constructor(
 ) {
     private val exceptedCountryId = 1L
     private val exceptedLanguage = LanguageEntity(1, "EN")
-    private val exceptedIsoCodes = listOf(IsoCodeEntity(1, "UK"),)
+    private val exceptedIsoCodes = listOf(IsoCodeEntity(1, "UK"))
     private val exceptedLocalizations = listOf(LocalizationEntity(1, "Ukraine", exceptedLanguage))
 
     private companion object {
@@ -40,10 +40,9 @@ internal class CountryJpaRepositoryTest @Autowired constructor(
 
     @Test
     internal fun `should get country by iso code and language`() {
-        val actual = repository.findCountryByIsoCodeAndLanguage("UK", "EN")
-        assertThat(actual).isNotNull
-        assertThat(actual).matches { it?.id == exceptedCountryId }
-        assertThat(actual).matches { it?.isoCodes?.containsAll(exceptedIsoCodes)!! }
-        assertThat(actual).matches { it?.localizations?.containsAll(exceptedLocalizations)!! }
+        val actual = repository.findBy("UK", "EN")
+        Assertions.assertEquals(exceptedCountryId, actual?.id)
+        Assertions.assertEquals(exceptedIsoCodes, actual?.isoCodes)
+        Assertions.assertEquals(exceptedLocalizations, actual?.localizations)
     }
 }

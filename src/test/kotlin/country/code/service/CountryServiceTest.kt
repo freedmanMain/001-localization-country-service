@@ -6,20 +6,13 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import country.code.exception.UnknownIsoCodeApplicationException
 import country.code.exception.UnknownLanguageApplicationException
-import country.code.persistence.model.CountryEntity
-import country.code.persistence.model.IsoCodeEntity
-import country.code.persistence.model.LanguageEntity
-import country.code.persistence.model.LocalizationEntity
-import country.code.persistence.repository.CountryCodeRepositoryImpl
-import country.code.persistence.repository.CountryLanguageRepositoryImpl
-import country.code.persistence.repository.CountryRepositoryImpl
-import country.code.persistence.repository.jpa.IsoCodeJpaRepository
-import country.code.persistence.repository.jpa.LanguageJpaRepository
-import country.code.persistence.repository.jpa.CountryJpaRepository
+import country.code.service.dto.Code
+import country.code.service.dto.Country
+import country.code.service.dto.Language
 import country.code.service.repository.CountryCodeRepository
 import country.code.service.repository.CountryLanguageRepository
 import country.code.service.repository.CountryRepository
-import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -27,68 +20,48 @@ import org.junit.jupiter.api.assertThrows
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class CountryServiceTest {
-    private val countryJpaRepositoryMock: CountryJpaRepository = mock()
+    private val countryRepository: CountryRepository = mock()
+    private val countryCodeRepository: CountryCodeRepository = mock()
+    private val countryLanguageRepository: CountryLanguageRepository = mock()
 
-    private val isoCodeJpaRepository: IsoCodeJpaRepository = mock()
-
-    private val languageRepositoryMockk: LanguageJpaRepository = mock()
-
-    private val countryRepository: CountryRepository = CountryRepositoryImpl(countryJpaRepositoryMock)
-
-    private val countryCodeRepository: CountryCodeRepository = CountryCodeRepositoryImpl(isoCodeJpaRepository)
-
-    private val countryLanguageRepository: CountryLanguageRepository = CountryLanguageRepositoryImpl(languageRepositoryMockk)
-
-    private val localizationService: CountryService =
-        CountryServiceImpl(countryRepository, countryCodeRepository, countryLanguageRepository)
-
-    private val exceptedCountryEntityId = 1L
-
-    private val exceptedCountryEntityLanguage = LanguageEntity(1, "EN")
-
-    private val exceptedCountryEntityIsoCodes = listOf(IsoCodeEntity(1, "UK"))
-
-    private val exceptedCountryEntityLocalizations =
-        listOf(LocalizationEntity(1, "Ukraine", exceptedCountryEntityLanguage))
+    private val countryService: CountryService = CountryServiceImpl(countryRepository, countryCodeRepository, countryLanguageRepository)
 
     private val exceptedCountryCode = "UK"
     private val exceptedCountryLocalization = "Ukraine"
 
     @BeforeEach
     fun setUp() {
-        reset(countryJpaRepositoryMock, isoCodeJpaRepository, languageRepositoryMockk)
+        reset(countryRepository, countryCodeRepository, countryLanguageRepository)
     }
 
     @Test
     fun `given existent data it should provide localization`() {
-        whenever(isoCodeJpaRepository.existsByIsoCode("UK")).thenReturn(true)
-        whenever(languageRepositoryMockk.existsByLanguage("EN")).thenReturn(true)
+        whenever(countryCodeRepository.existBy("UK")).thenReturn(true)
+        whenever(countryLanguageRepository.existBy("EN")).thenReturn(true)
 
-        whenever(countryJpaRepositoryMock.findCountryByIsoCodeAndLanguage("UK", "EN"))
+        val code = Code("UK", countryCodeRepository)
+        val lang = Language("EN", countryLanguageRepository)
+
+        whenever(countryRepository.findBy(code!!, lang!!))
             .thenReturn(
-                CountryEntity(
-                    exceptedCountryEntityId,
-                    exceptedCountryEntityIsoCodes,
-                    exceptedCountryEntityLocalizations
-                )
+                Country(exceptedCountryCode, exceptedCountryLocalization)
             )
 
-        val actual = localizationService.getCountryByIsoCodeAndLanguage("UK", "EN")
+        val actual = countryService.getBy("UK", "EN")
 
-        verify(countryJpaRepositoryMock).findCountryByIsoCodeAndLanguage("UK", "EN")
+        verify(countryRepository).findBy(code, lang)
 
-        assertThat(actual).isNotNull
-        assertThat(actual).matches { it.code == exceptedCountryCode }
-        assertThat(actual).matches { it.name == exceptedCountryLocalization }
+        assertEquals(exceptedCountryCode, actual.code)
+        assertEquals(exceptedCountryLocalization, actual.name)
     }
 
     @Test
     fun `given unknown iso code it should provide exception`() {
-        whenever(isoCodeJpaRepository.existsByIsoCode("UK"))
+        whenever(countryCodeRepository.existBy("UK"))
             .thenThrow(UnknownIsoCodeApplicationException::class.java)
 
         assertThrows<UnknownIsoCodeApplicationException> {
-            localizationService.getCountryByIsoCodeAndLanguage(
+            countryService.getBy(
                 "UK",
                 "EN"
             )
@@ -97,12 +70,12 @@ internal class CountryServiceTest {
 
     @Test
     fun `given unknown language it should provide exception`() {
-        whenever(isoCodeJpaRepository.existsByIsoCode("UK"))
+        whenever(countryCodeRepository.existBy("UK"))
             .thenReturn(true)
-        whenever(languageRepositoryMockk.existsByLanguage("JA"))
+        whenever(countryLanguageRepository.existBy("JA"))
             .thenThrow(UnknownLanguageApplicationException::class.java)
         assertThrows<UnknownLanguageApplicationException> {
-            localizationService.getCountryByIsoCodeAndLanguage(
+            countryService.getBy(
                 "UK",
                 "JA"
             )

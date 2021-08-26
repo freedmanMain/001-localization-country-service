@@ -16,5 +16,5 @@ class CountryController(
     fun getLocalizationByIsoCodeAndLanguage(
         @PathVariable("id") isoCode: String,
         @RequestParam language: String
-    ) = countryService.getCountryByIsoCodeAndLanguage(isoCode, language)
+    ) = countryService.getBy(isoCode, language)
 }

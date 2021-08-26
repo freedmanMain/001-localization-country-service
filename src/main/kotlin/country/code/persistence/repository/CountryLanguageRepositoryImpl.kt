@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository
 class CountryLanguageRepositoryImpl(
     val languageJpaRepository: LanguageJpaRepository
 ) : CountryLanguageRepository {
-    override fun exist(language: String) = languageJpaRepository.existsByLanguage(language)
+    override fun existBy(language: String) = languageJpaRepository.existsByLanguage(language)
 }
