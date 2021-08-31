@@ -32,12 +32,12 @@ internal class CountryServiceTest {
     private val exceptedCountryLocalization = "Ukraine"
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         reset(countryRepository, countryCodeRepository, countryLanguageRepository)
     }
 
     @Test
-    fun `given existent data it should provide localization`() {
+    internal fun `given existent data it should provide localization`() {
         whenever(countryCodeRepository.existBy("UK")).thenReturn(true)
         whenever(countryLanguageRepository.existBy("EN")).thenReturn(true)
 
@@ -58,7 +58,7 @@ internal class CountryServiceTest {
     }
 
     @Test
-    fun `given unknown iso code it should provide exception`() {
+    internal fun `given unknown iso code it should provide exception`() {
         val message =
             "Unknown iso code format UK. The code must be in the following formats Alpha-2, Alpha-3 or Numeric"
 
@@ -76,7 +76,7 @@ internal class CountryServiceTest {
     }
 
     @Test
-    fun `given unknown language it should provide exception`() {
+    internal fun `given unknown language it should provide exception`() {
         val message = "Unknown language format JA. The format must be in the following format ISO 639"
         whenever(countryCodeRepository.existBy("UK"))
             .thenReturn(true)
@@ -93,7 +93,7 @@ internal class CountryServiceTest {
     }
 
     @Test
-    fun `given existent language and country code but country localization was not founded this case should throw exception`() {
+    internal fun `given existent language and country code but country localization was not founded this case should throw exception`() {
         val message = "Couldn't find country by this UK and EN"
         whenever(countryCodeRepository.existBy("UK"))
             .thenReturn(true)
