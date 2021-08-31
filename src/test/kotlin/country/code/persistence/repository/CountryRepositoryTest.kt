@@ -1,6 +1,7 @@
 package country.code.persistence.repository
 
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.reset
 import com.nhaarman.mockitokotlin2.whenever
 import country.code.config.getDataSource
 import country.code.service.dto.Code
@@ -16,29 +17,35 @@ import liquibase.resource.ClassLoaderResourceAccessor
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 
 internal class CountryRepositoryTest {
-    private val countryCodeRepository: CountryCodeRepository = mock()
-    private val countryLanguageRepository: CountryLanguageRepository = mock()
-
-    private val exceptedCountryCode = "UK"
-    private val exceptedCountryLocalization = "Ukraine"
 
     companion object {
         private val dataSource = getDataSource()
         private val jdbc = NamedParameterJdbcTemplate(dataSource)
         private val countryRepository: CountryRepository = CountryRepositoryImpl(jdbc)
+        private const val exceptedCountryCode = "UK"
+        private const val exceptedCountryLocalization = "Ukraine"
+        private val countryCodeRepository: CountryCodeRepository = mock()
+        private val countryLanguageRepository: CountryLanguageRepository = mock()
 
         @JvmStatic
         @BeforeAll
         fun setUp() {
             val db = DatabaseFactory.getInstance()
-                    .findCorrectDatabaseImplementation(JdbcConnection(getDataSource().connection))
+                .findCorrectDatabaseImplementation(JdbcConnection(getDataSource().connection))
             val lb = Liquibase("db.changelog/db.changelog-master.xml", ClassLoaderResourceAccessor(), db)
             lb.update(Contexts("test"))
         }
+    }
+
+    @BeforeEach
+    fun resetMock() {
+        reset(countryCodeRepository, countryLanguageRepository)
     }
 
     @Test
