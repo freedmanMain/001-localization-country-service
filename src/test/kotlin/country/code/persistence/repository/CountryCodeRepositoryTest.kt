@@ -31,13 +31,13 @@ internal class CountryCodeRepositoryTest {
     }
 
     @Test
-    fun `should find existent iso code`() {
+    internal fun `should find existent iso code`() {
         val isExist = countryCodeRepository.existBy("UK")
         assertTrue(isExist)
     }
 
     @Test
-    fun `should not find iso code because it doesn't exist`() {
+    internal fun `should not find iso code because it doesn't exist`() {
         val isExist = countryCodeRepository.existBy("USA")
         assertFalse(isExist)
     }

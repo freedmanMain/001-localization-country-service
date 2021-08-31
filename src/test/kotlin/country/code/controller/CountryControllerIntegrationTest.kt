@@ -37,7 +37,7 @@ internal class CountryControllerIntegrationTest(
     }
 
     @Test
-    fun `should provide response with OK status and content type json`() {
+    internal fun `should provide response with OK status and content type json`() {
         mockMvc.perform(get("${apiUrl}UK?language=EN"))
             .andExpect {
                 status().isOk
@@ -48,7 +48,7 @@ internal class CountryControllerIntegrationTest(
     }
 
     @Test
-    fun `should provide response with BAD_REQUEST http code and error code 10`() {
+    internal fun `should provide response with BAD_REQUEST http code and error code 10`() {
         mockMvc.perform(get("${apiUrl}PL?language=EN"))
             .andExpect {
                 status().isBadRequest
@@ -58,7 +58,7 @@ internal class CountryControllerIntegrationTest(
     }
 
     @Test
-    fun `should provide response with BAD_REQUEST http code and error code 20`() {
+    internal fun `should provide response with BAD_REQUEST http code and error code 20`() {
         mockMvc.perform(get("${apiUrl}UK?language=JA"))
             .andExpect {
                 status().isBadRequest
@@ -68,7 +68,7 @@ internal class CountryControllerIntegrationTest(
     }
 
     @Test
-    fun `should provide response with NOT_FOUND http code and error code 30`() {
+    internal fun `should provide response with NOT_FOUND http code and error code 30`() {
         mockMvc.perform(get("${apiUrl}RU?language=UA"))
             .andExpect {
                 status().isNotFound
