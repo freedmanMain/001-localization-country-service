@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 
 internal class CountryCodeRepositoryTest {
 
-    companion object {
+    private companion object {
         private val dataSource = getDataSource()
         private val jdbc = NamedParameterJdbcTemplate(dataSource)
         private val countryCodeRepository: CountryCodeRepository = CountryCodeRepositoryImpl(jdbc)

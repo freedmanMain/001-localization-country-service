@@ -10,7 +10,7 @@ class CountryCodeRepositoryImpl(
     private val jdbc: NamedParameterJdbcTemplate
 ) : CountryCodeRepository {
 
-    companion object {
+    private companion object {
         @Language("postgresql")
         private const val SQL = "select exists(select * from iso_codes i1 where i1.iso_code = :iso_code)"
     }
