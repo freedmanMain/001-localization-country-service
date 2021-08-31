@@ -15,7 +15,7 @@ class CountryRepositoryImpl(
     private val jdbc: NamedParameterJdbcTemplate
 ) : CountryRepository {
 
-    companion object {
+    private companion object {
         @org.intellij.lang.annotations.Language("postgresql")
         private const val SQL = "select i1.iso_code as code, l1.localization as country_name " +
                 "from countries c1 " +
@@ -23,13 +23,10 @@ class CountryRepositoryImpl(
                 "join localizations l1 on l1.country_id = c1.id " +
                 "join languages l2 on l2.id = l1.language_id " +
                 "where i1.iso_code = :code and l2.language = :language"
-
     }
 
     override fun findBy(code: Code, language: Language): Country? = try {
-
         val parameters = mapOf("code" to code.value, "language" to language.value)
-
         jdbc.queryForObject(SQL, parameters, toCountry())
     } catch (e: EmptyResultDataAccessException) {
         null

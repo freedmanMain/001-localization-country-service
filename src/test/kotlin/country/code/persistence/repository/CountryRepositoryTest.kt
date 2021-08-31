@@ -19,12 +19,11 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 
 internal class CountryRepositoryTest {
 
-    companion object {
+    private companion object {
         private val dataSource = getDataSource()
         private val jdbc = NamedParameterJdbcTemplate(dataSource)
         private val countryRepository: CountryRepository = CountryRepositoryImpl(jdbc)
@@ -44,7 +43,7 @@ internal class CountryRepositoryTest {
     }
 
     @BeforeEach
-    fun resetMock() {
+    fun resetMocks() {
         reset(countryCodeRepository, countryLanguageRepository)
     }
 
