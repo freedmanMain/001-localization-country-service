@@ -27,8 +27,8 @@ internal class CountryRepositoryTest {
         private val dataSource = getDataSource()
         private val jdbc = NamedParameterJdbcTemplate(dataSource)
         private val countryRepository: CountryRepository = CountryRepositoryImpl(jdbc)
-        private const val exceptedCountryCode = "UK"
-        private const val exceptedCountryLocalization = "Ukraine"
+        private const val EXCEPTED_COUNTRY_CODE = "UK"
+        private const val EXCEPTED_COUNTRY_NAME = "Ukraine"
         private val countryCodeRepository: CountryCodeRepository = mock()
         private val countryLanguageRepository: CountryLanguageRepository = mock()
 
@@ -56,8 +56,8 @@ internal class CountryRepositoryTest {
         val lang = Language("EN", countryLanguageRepository)
         val actual = countryRepository.findBy(code!!, lang!!)
 
-        assertEquals(exceptedCountryCode, actual?.code)
-        assertEquals(exceptedCountryLocalization, actual?.name)
+        assertEquals(EXCEPTED_COUNTRY_CODE, actual?.code)
+        assertEquals(EXCEPTED_COUNTRY_NAME, actual?.name)
     }
 
     @Test

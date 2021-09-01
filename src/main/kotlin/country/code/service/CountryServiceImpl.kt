@@ -10,6 +10,7 @@ import country.code.service.repository.CountryCodeRepository
 import country.code.service.repository.CountryLanguageRepository
 import country.code.service.repository.CountryRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CountryServiceImpl(
@@ -17,6 +18,8 @@ class CountryServiceImpl(
     private val countyCodeRepository: CountryCodeRepository,
     private val countryLanguageRepository: CountryLanguageRepository
 ) : CountryService {
+
+    @Transactional(readOnly = true)
     override fun getBy(isoCode: String, language: String): Country {
         val code = Code(isoCode.uppercase(), countyCodeRepository)
             ?: throw UnknownIsoCodeApplicationException(
