@@ -37,7 +37,7 @@ internal class CountryLanguageRepositoryTest {
 
     @Test
     internal fun `should not find language because it doesn't exist`() {
-        val isExist =countryLanguageRepository.existBy("JA")
+        val isExist = countryLanguageRepository.existBy("JA")
         Assertions.assertFalse(isExist)
     }
 }

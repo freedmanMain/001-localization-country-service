@@ -8,7 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
-import java.sql.ResultSet
+import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class CountryRepositoryImpl(
@@ -32,7 +32,7 @@ class CountryRepositoryImpl(
         null
     }
 
-    private fun toCountry() = RowMapper<Country> { resultSet: ResultSet, _: Int ->
+    private fun toCountry() = RowMapper<Country> { resultSet, _ ->
         Country(
             resultSet.getString("code"),
             resultSet.getString("country_name")

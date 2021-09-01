@@ -21,11 +21,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 internal class CountryControllerIntegrationTest(
     @Autowired private val mockMvc: MockMvc,
 ) {
-    private val apiUrl = "/countries/"
-    private val exceptedCountryCode = "UK"
-    private val exceptedCountryLocalization = "Ukraine"
-
     private companion object {
+        private const val API_URL = "/countries/"
+        private const val EXCEPTED_COUNTRY_CODE = "UK"
+        private const val EXCEPTED_COUNTRY_NAME = "Ukraine"
+
         @JvmStatic
         @DynamicPropertySource
         fun setUpDynamicProperties(registry: DynamicPropertyRegistry) {
@@ -38,18 +38,18 @@ internal class CountryControllerIntegrationTest(
 
     @Test
     internal fun `should provide response with OK status and content type json`() {
-        mockMvc.perform(get("${apiUrl}UK?language=EN"))
+        mockMvc.perform(get("${API_URL}UK?language=EN"))
             .andExpect {
                 status().isOk
                 content().contentType(MediaType.APPLICATION_JSON)
-                jsonPath("$.countryCode").value(exceptedCountryCode)
-                jsonPath("$.countyLocalization").value(exceptedCountryLocalization)
+                jsonPath("$.countryCode").value(EXCEPTED_COUNTRY_CODE)
+                jsonPath("$.countyLocalization").value(EXCEPTED_COUNTRY_NAME)
             }
     }
 
     @Test
     internal fun `should provide response with BAD_REQUEST http code and error code 10`() {
-        mockMvc.perform(get("${apiUrl}PL?language=EN"))
+        mockMvc.perform(get("${API_URL}PL?language=EN"))
             .andExpect {
                 status().isBadRequest
                 content().contentType(MediaType.APPLICATION_JSON)
@@ -59,7 +59,7 @@ internal class CountryControllerIntegrationTest(
 
     @Test
     internal fun `should provide response with BAD_REQUEST http code and error code 20`() {
-        mockMvc.perform(get("${apiUrl}UK?language=JA"))
+        mockMvc.perform(get("${API_URL}UK?language=JA"))
             .andExpect {
                 status().isBadRequest
                 content().contentType(MediaType.APPLICATION_JSON)
@@ -69,7 +69,7 @@ internal class CountryControllerIntegrationTest(
 
     @Test
     internal fun `should provide response with NOT_FOUND http code and error code 30`() {
-        mockMvc.perform(get("${apiUrl}RU?language=UA"))
+        mockMvc.perform(get("${API_URL}RU?language=UA"))
             .andExpect {
                 status().isNotFound
                 content().contentType(MediaType.APPLICATION_JSON)
